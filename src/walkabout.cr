@@ -1,5 +1,14 @@
 require "./walkabout/*"
+require "molly2d"
 
-module Walkabout
-  # TODO Put your code here
+class Molly
+  def load
+    puts "walkabout load"
+  end
+
+  def update(dt)
+  end
+
+  def draw
+  end
 end
