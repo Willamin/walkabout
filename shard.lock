@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  molly2d:
+    path: /Users/will/Documents/projects/molly2d
+    version: 0.1.0
+

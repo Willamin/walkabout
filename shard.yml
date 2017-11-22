@@ -11,3 +11,7 @@ targets:
 crystal: 0.23.1
 
 license: MIT
+
+dependencies:
+  molly2d:
+    path: /Users/will/Documents/projects/molly2d
