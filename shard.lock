@@ -4,3 +4,7 @@ shards:
     path: /Users/will/Documents/projects/molly2d
     version: 0.1.0
 
+  sdl:
+    github: ysbaddaden/sdl.cr
+    commit: de1d17801a7b4c022777af1ba9719221248e49aa
+
