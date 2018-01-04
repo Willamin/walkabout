@@ -1,6 +1,4 @@
 module Walkabout
-  VERSION = YAML.parse(File.read("shard.yml"))["version"]
-
   class Player
     property :x, :y, :speed, :moving_right
     @x : Int32
