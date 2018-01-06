@@ -5,7 +5,7 @@ module Walkabout
     property :x, :y, :speed, :moving_right
     @x : Int32
     @y : Int32
-    @speed : Int32 = 100
+    @speed : Int32 = 500
     @moving_right : Bool = true
 
     def initialize(@x : Int32, @y : Int32)
