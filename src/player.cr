@@ -1,28 +1,20 @@
 module Walkabout
-  VERSION = YAML.parse(File.read("shard.yml"))["version"]
-
   class Player
-    property :x, :y, :speed, :moving_right
+    property :x, :y, :speed
     @x : Int32
     @y : Int32
-    @speed : Int32 = 500
-    @moving_right : Bool = true
+    @speed : Int32 = 300
 
     def initialize(@x : Int32, @y : Int32)
     end
 
     def draw(m : Molly)
-      m.set_color(SDL::Color.new(240, 100, 100))
-      m.draw_rect(@x, @y, 100, 100)
+      m.set_color(SDL::Color.new(100, 240, 100))
+      m.draw_rect(@x, @y, 50, 50)
     end
 
     def inspect(io)
-      io << "Player{(#{x}, #{y}), "
-      if @moving_right
-        io << "->"
-      else
-        io << "<-"
-      end
+      io << "Player{(#{x}, #{y}) "
       io << " @ #{@speed}}\n"
     end
   end
