@@ -1,6 +1,5 @@
 require "yaml"
 require "molly2d"
-require "sdl"
 
 require "./entity"
 require "./objects/*"

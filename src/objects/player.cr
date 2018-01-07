@@ -21,7 +21,7 @@ module Walkabout
     end
 
     def draw(m : Molly)
-      m.set_color(SDL::Color.new(100, 100, 240))
+      m.set_color(Color.new(100, 100, 240))
       m.draw_rect(@x, @y, 50, 50)
     end
 
