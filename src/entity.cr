@@ -9,5 +9,3 @@ module Walkabout
     end
   end
 end
-
-alias Entity = Walkabout::Entity
