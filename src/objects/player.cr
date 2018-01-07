@@ -1,15 +1,9 @@
 module Walkabout
-  class Player
-    property :x, :y, :speed
-    @x : Int32
-    @y : Int32
-    @speed : Int32 = 300
-
-    def initialize(@x : Int32, @y : Int32)
-    end
+  class Player < Entity
+    @speed = 300
 
     def draw(m : Molly)
-      m.set_color(SDL::Color.new(100, 240, 100))
+      m.set_color(SDL::Color.new(100, 100, 240))
       m.draw_rect(@x, @y, 50, 50)
     end
 

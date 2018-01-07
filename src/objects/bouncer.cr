@@ -1,13 +1,8 @@
 module Walkabout
-  class Bouncer
-    property :x, :y, :speed, :moving_right
-    @x : Int32
-    @y : Int32
-    @speed : Int32 = 500
+  class Bouncer < Entity
+    property :moving_right
     @moving_right : Bool = true
-
-    def initialize(@x : Int32, @y : Int32)
-    end
+    @speed = 500
 
     def draw(m : Molly)
       m.set_color(SDL::Color.new(240, 100, 100))
