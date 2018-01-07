@@ -17,39 +17,8 @@ class Molly
   end
 
   def update(dt)
-    @bouncer.try do |b|
-      if b.moving_right
-        b.x += (b.speed * dt).to_i
-      else
-        b.x -= (b.speed * dt).to_i
-      end
-
-      if b.x > 800 - 100
-        b.moving_right = false
-      end
-
-      if b.x < 0
-        b.moving_right = true
-      end
-    end
-
-    @player.try do |p|
-      if keyboard_pressed?(Key::LEFT)
-        p.x -= (p.speed * dt).to_i
-      end
-
-      if keyboard_pressed?(Key::RIGHT)
-        p.x += (p.speed * dt).to_i
-      end
-
-      if keyboard_pressed?(Key::DOWN)
-        p.y += (p.speed * dt).to_i
-      end
-
-      if keyboard_pressed?(Key::UP)
-        p.y -= (p.speed * dt).to_i
-      end
-    end
+    @bouncer.try &.update(dt)
+    @player.try &.update(dt, self)
   end
 
   def draw
