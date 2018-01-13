@@ -1,10 +1,12 @@
 module Walkabout
   class Player < Entity
-    @speed = 300
+    @speed = 200
+    @facing_left = false
 
     def update(dt, m : Molly)
       if m.keyboard_pressed?(Key::RIGHT)
         @x += (@speed * dt).to_i
+        @facing_left = false
       end
 
       if m.keyboard_pressed?(Key::UP)
@@ -13,6 +15,7 @@ module Walkabout
 
       if m.keyboard_pressed?(Key::LEFT)
         @x -= (@speed * dt).to_i
+        @facing_left = true
       end
 
       if m.keyboard_pressed?(Key::DOWN)
@@ -22,7 +25,10 @@ module Walkabout
 
     def draw(m : Molly)
       m.set_color(Color.new(100, 100, 240))
-      m.draw_rect(@x, @y, 50, 50)
+
+      m.oldman.try do |sprite|
+        m.draw_sprite(@x, @y, sprite, 4, 4, flip_x: @facing_left)
+      end
     end
 
     def inspect(io)
