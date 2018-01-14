@@ -4,7 +4,7 @@ module Walkabout
     @moving_right : Bool = true
     @speed = 500
 
-    def update(dt)
+    def update(dt, m)
       if moving_right
         @x += (@speed * dt).to_i
       else
