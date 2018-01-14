@@ -9,13 +9,9 @@ module Walkabout
 end
 
 class Molly
-  property oldman
-  @oldman : SDL::Texture?
-
   def load
     puts "walkabout load v#{Walkabout::VERSION}"
     @player = Player.new(300, 300)
-    @oldman = SDL::IMG.load("#{__DIR__}/../res/oldman.gif", @renderer)
     @background = SDL::Color.new(62, 41, 52)
   end
 

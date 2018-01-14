@@ -7,6 +7,7 @@ module Walkabout
   end
 
   class Player < Entity
+    SPRITE_PATH = "#{__DIR__}/../../res/oldman.gif"
     @speed = 200
     @facing_left = false
 
@@ -42,9 +43,7 @@ module Walkabout
     def draw(m : Molly)
       m.set_color(Color.new(100, 100, 240))
 
-      m.oldman.try do |sprite|
-        m.draw_sprite(@x, @y, sprite, 4, 4, flip_x: @facing_left)
-      end
+      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 4, 4, flip_x: @facing_left)
     end
 
     def inspect(io)
