@@ -38,6 +38,7 @@ class Molly
 
   def load
     puts "walkabout load v#{Walkabout::VERSION}"
+    @window.size = {15.tiles, 15.tiles}
     do_both(Player.new(7.tiles, 7.tiles))
     (0..14).each { |i| do_draw(Wall.new(i.tiles, 0.tiles)) }
     (0..14).each { |i| do_draw(WallBottom.new(i.tiles, 14.tiles)) }

@@ -60,7 +60,7 @@ module Walkabout
       end
     end
 
-    def move(dt, m)
+    def move(dt, m : Molly)
       movement = MovementVector.new
       if m.keyboard_pressed?(Key::RIGHT)
         movement.x += (@speed * dt).to_i
