@@ -7,11 +7,11 @@ module Walkabout
     def initialize(@x, @y, @direction : Symbol)
     end
 
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3)
     end
 
-    def update(dt, m)
+    def update(dt)
       case @direction
       when :right
         @x += (speed * dt).to_i

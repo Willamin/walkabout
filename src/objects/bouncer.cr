@@ -4,7 +4,7 @@ module Walkabout
     @moving_right : Bool = true
     @speed = 500
 
-    def update(dt, m)
+    def update(dt)
       if moving_right
         @x += (@speed * dt).to_i
       else
@@ -20,9 +20,9 @@ module Walkabout
       end
     end
 
-    def draw(m : Molly)
-      m.set_color(Color.new(240, 100, 100))
-      m.draw_rect(@x, @y, 100, 100)
+    def draw
+      Molly.set_color(Color.new(240, 100, 100))
+      Molly.draw_rect(@x, @y, 100, 100)
     end
 
     def inspect(io)

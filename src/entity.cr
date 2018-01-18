@@ -1,6 +1,6 @@
 module Walkabout
   abstract class Entity
-    property :x, :y, :speed, delete_me
+    property :x, :y, :speed, :delete_me
     @x : Int32
     @y : Int32
     @speed : Int32 = 0
@@ -9,10 +9,10 @@ module Walkabout
     def initialize(@x : Int32, @y : Int32)
     end
 
-    def update(dt, m)
+    def update(dt)
     end
 
-    def draw(m)
+    def draw
     end
   end
 end

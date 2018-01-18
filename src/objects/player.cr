@@ -13,70 +13,70 @@ module Walkabout
 
     @shoot_timer = 0_f64
 
-    def update(dt, m : Molly)
-      move(dt, m)
-      shoot(dt, m)
+    def update(dt)
+      move(dt)
+      shoot(dt)
       @shoot_timer -= dt
       if @shoot_timer < 0
         @shoot_timer = 0
       end
     end
 
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3, flip_x: @facing_left)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, flip_x: @facing_left)
     end
 
     def shoot!
       @shoot_timer = 0.5
     end
 
-    def shoot(dt, m)
+    def shoot(dt)
       if @shoot_timer > 0
         return
       end
 
-      if m.keyboard_pressed?(Key::D)
+      if Molly.keyboard_pressed?(Key::D)
         shoot!
-        m.do_both(Stone.new(@x, @y, :right))
+        W.do_both(Stone.new(@x, @y, :right))
         return
       end
 
-      if m.keyboard_pressed?(Key::W)
+      if Molly.keyboard_pressed?(Key::W)
         shoot!
-        m.do_both(Stone.new(@x, @y, :up))
+        W.do_both(Stone.new(@x, @y, :up))
         return
       end
 
-      if m.keyboard_pressed?(Key::A)
+      if Molly.keyboard_pressed?(Key::A)
         shoot!
-        m.do_both(Stone.new(@x, @y, :left))
+        W.do_both(Stone.new(@x, @y, :left))
         return
       end
 
-      if m.keyboard_pressed?(Key::S)
+      if Molly.keyboard_pressed?(Key::S)
         shoot!
-        m.do_both(Stone.new(@x, @y, :down))
+        W.do_both(Stone.new(@x, @y, :down))
         return
       end
     end
 
-    def move(dt, m : Molly)
+    def move(dt)
       movement = MovementVector.new
-      if m.keyboard_pressed?(Key::RIGHT)
+      if Molly.keyboard_pressed?(Key::RIGHT)
         movement.x += (@speed * dt).to_i
         @facing_left = false
       end
 
-      if m.keyboard_pressed?(Key::UP)
+      if Molly.keyboard_pressed?(Key::UP)
         movement.y -= (@speed * dt).to_i
       end
 
-      if m.keyboard_pressed?(Key::LEFT)
+      if Molly.keyboard_pressed?(Key::LEFT)
         movement.x -= (@speed * dt).to_i
         @facing_left = true
       end
 
-      if m.keyboard_pressed?(Key::DOWN)
+      if Molly.keyboard_pressed?(Key::DOWN)
         movement.y += (@speed * dt).to_i
       end
 

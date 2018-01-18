@@ -2,26 +2,26 @@ module Walkabout
   class Wall < Entity
     SPRITE_PATH = "#{__DIR__}/../../res/wall.gif"
 
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3)
     end
   end
 
   class WallBottom < Wall
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3, angle: 180)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, angle: 180)
     end
   end
 
   class WallLeft < Wall
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3, angle: 270)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, angle: 270)
     end
   end
 
   class WallRight < Wall
-    def draw(m : Molly)
-      m.draw_sprite(@x, @y, m.load_sprite(SPRITE_PATH), 3, 3, angle: 90)
+    def draw
+      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, angle: 90)
     end
   end
 end
