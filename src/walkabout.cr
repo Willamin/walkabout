@@ -64,5 +64,3 @@ module Molly
     # draw_text(3.tiles, 3.tiles, "entities: #{Walkabout::UPDATEABLE_OBJECTS.size}")
   end
 end
-
-Molly.run
