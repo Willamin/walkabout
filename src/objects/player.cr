@@ -26,8 +26,9 @@ module Walkabout
       Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, flip_x: @facing_left)
     end
 
-    def shoot!
+    def shoot!(dir)
       @shoot_timer = 0.5
+      Molly.do_both(Stone.new(@x, @y, dir))
     end
 
     def shoot(dt)
@@ -36,26 +37,22 @@ module Walkabout
       end
 
       if Molly.keyboard_pressed?(Key::D)
-        shoot!
-        W.do_both(Stone.new(@x, @y, :right))
+        shoot! :right
         return
       end
 
       if Molly.keyboard_pressed?(Key::W)
-        shoot!
-        W.do_both(Stone.new(@x, @y, :up))
+        shoot! :up
         return
       end
 
       if Molly.keyboard_pressed?(Key::A)
-        shoot!
-        W.do_both(Stone.new(@x, @y, :left))
+        shoot! :left
         return
       end
 
       if Molly.keyboard_pressed?(Key::S)
-        shoot!
-        W.do_both(Stone.new(@x, @y, :down))
+        shoot! :down
         return
       end
     end
