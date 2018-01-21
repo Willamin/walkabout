@@ -62,9 +62,17 @@ module Molly
 
   def initialize_objects
     do_both(Player.new(7.tiles, 7.tiles))
-    (0..14).each { |i| do_draw(Wall.new(i.tiles, 0.tiles)) }
-    (0..14).each { |i| do_draw(WallBottom.new(i.tiles, 14.tiles)) }
-    (1..13).each { |i| do_draw(WallLeft.new(0, i.tiles)) }
-    (1..13).each { |i| do_draw(WallRight.new(14.tiles, i.tiles)) }
+
+    # along the top
+    (0..14).each { |i| Wall.build(i, 0, (6..8).includes?(i)) }
+
+    # along the bottom
+    (0..14).each { |i| Wall.build(i, 14, (6..8).includes?(i)) }
+
+    # along the left
+    (1..13).each { |i| Wall.build(0, i, (6..8).includes?(i)) }
+
+    # along the right
+    (1..13).each { |i| Wall.build(14, i, (6..8).includes?(i)) }
   end
 end
