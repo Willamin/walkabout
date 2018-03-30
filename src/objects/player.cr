@@ -1,89 +1,119 @@
+require "../direction"
+
 module Walkabout
-  class MovementVector
-    property x, y
-
-    def initialize(@x : Float64 = 0_f64, @y : Float64 = 0_f64)
-    end
-  end
-
   class Player < Entity
     SPRITE_PATH = "#{__DIR__}/../../res/oldman.gif"
-    @speed = 200
-    @facing_left = false
+    @speed_mod = 1
+    @shot_speed_mod = 1
+    @shot_delay_mod = 1
 
+    @facing_left = false
     @shoot_timer = 0_f64
+    @facing : Direction = Direction::Right
 
     def update(dt)
       move(dt)
-      shoot(dt)
+
+      handle_shooting(dt)
       @shoot_timer -= dt
       if @shoot_timer < 0
         @shoot_timer = 0
       end
     end
 
+    def speed
+      @speed_mod * Molly.base_player_speed
+    end
+
+    def shot_speed
+      s = @shot_speed_mod * Molly.base_shot_speed
+      if s < speed * 1.5
+        s = speed * 1.5
+      end
+      s.to_i
+    end
+
+    def shot_delay
+      @shot_delay_mod * Molly.base_shot_delay
+    end
+
+    def move(dt)
+      movement_x = 0_f64
+      movement_y = 0_f64
+
+      if Molly.keyboard_pressed?(Key::RIGHT)
+        movement_x += (speed * dt).to_i
+        @facing = Direction::Right
+      end
+
+      if Molly.keyboard_pressed?(Key::UP)
+        movement_y -= (speed * dt).to_i
+      end
+
+      if Molly.keyboard_pressed?(Key::LEFT)
+        movement_x -= (speed * dt).to_i
+        @facing = Direction::Left
+      end
+
+      if Molly.keyboard_pressed?(Key::DOWN)
+        movement_y += (speed * dt).to_i
+      end
+
+      movement_x = ensure_clear(movement_x, :x)
+      movement_y = ensure_clear(movement_y, :y)
+
+      if movement_x != 0 && movement_y != 0
+        movement_x *= 0.707
+        movement_y *= 0.707
+      end
+
+      @x += movement_x.to_i
+      @y += movement_y.to_i
+    end
+
+    def ensure_clear(amount, axis)
+      case axis
+      when :x
+        amount
+      when :y
+        amount
+      else
+        0
+      end
+    end
+
     def draw
-      Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3, flip_x: @facing_left)
+      Molly.draw_sprite(
+        @x,
+        @y,
+        Molly.load_sprite(SPRITE_PATH),
+        3,
+        3,
+        flip_x: (@facing == Direction::Left)
+      )
+      Molly.set_color(Color.new(255, 255, 255))
     end
 
-    def shoot!(dir)
-      @shoot_timer = 0.5
-      Molly.do_both(Stone.new(@x, @y, dir))
+    def shoot(dir : Symbol)
+      @shoot_timer = shot_delay
+      Molly.do_both(Stone.new(@x, @y, dir, shot_speed))
     end
 
-    def shoot(dt)
+    def handle_shooting(dt : Float64)
       if @shoot_timer > 0
         return
       end
 
-      if Molly.keyboard_pressed?(Key::D)
-        shoot! :right
-        return
+      case Molly
+      when .keyboard_pressed?(Key::D)
+        shoot :right
+      when .keyboard_pressed?(Key::W)
+        shoot :up
+      when .keyboard_pressed?(Key::A)
+        shoot :left
+      when .keyboard_pressed?(Key::S)
+        shoot :down
       end
-
-      if Molly.keyboard_pressed?(Key::W)
-        shoot! :up
-        return
-      end
-
-      if Molly.keyboard_pressed?(Key::A)
-        shoot! :left
-        return
-      end
-
-      if Molly.keyboard_pressed?(Key::S)
-        shoot! :down
-        return
-      end
-    end
-
-    def move(dt)
-      movement = MovementVector.new
-      if Molly.keyboard_pressed?(Key::RIGHT)
-        movement.x += (@speed * dt).to_i
-        @facing_left = false
-      end
-
-      if Molly.keyboard_pressed?(Key::UP)
-        movement.y -= (@speed * dt).to_i
-      end
-
-      if Molly.keyboard_pressed?(Key::LEFT)
-        movement.x -= (@speed * dt).to_i
-        @facing_left = true
-      end
-
-      if Molly.keyboard_pressed?(Key::DOWN)
-        movement.y += (@speed * dt).to_i
-      end
-
-      if movement.x != 0 && movement.y != 0
-        movement.x *= 0.707
-        movement.y *= 0.707
-      end
-
-      @x += movement.x.to_i
-      @y += movement.y.to_i
     end
 
     def inspect(io)

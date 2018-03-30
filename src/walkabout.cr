@@ -1,6 +1,8 @@
 require "yaml"
 require "molly2d"
 
+require "./constants"
+require "./vector"
 require "./entity"
 require "./objects/*"
 
