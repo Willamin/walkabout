@@ -1,8 +1,11 @@
 module Walkabout
   class Stone < Entity
     SPRITE_PATH = "#{__DIR__}/../../res/stone.gif"
+    SOUND_PATH  = "#{__DIR__}/../../res/throw-stone.wav"
 
-    def initialize(@x, @y, @direction : Symbol, @speed); end
+    def initialize(@x, @y, @direction : Symbol, @speed)
+      Molly.play_sound(Molly.load_sound(SOUND_PATH))
+    end
 
     def draw
       Molly.draw_sprite(@x, @y, Molly.load_sprite(SPRITE_PATH), 3, 3)
