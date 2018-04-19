@@ -74,9 +74,17 @@ module Walkabout
     def ensure_clear(amount, axis)
       case axis
       when :x
-        amount
+        if @x + amount < 0 || @x + amount > (Molly.window.size[0] - 1.tiles)
+          0
+        else
+          amount
+        end
       when :y
-        amount
+        if @y + amount < 0 || @y + amount > (Molly.window.size[1] - 1.tiles)
+          0
+        else
+          amount
+        end
       else
         0
       end
