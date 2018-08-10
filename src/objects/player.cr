@@ -71,6 +71,12 @@ module Walkabout
       @y += movement_y.to_i
     end
 
+    def outside_border?(axis, point)
+      case axis
+      when :x
+      end
+    end
+
     def ensure_clear(amount, axis)
       case axis
       when :x
