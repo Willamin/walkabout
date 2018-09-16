@@ -24,7 +24,7 @@ end
 module Molly
   # overridden Molly methods
   def load
-    puts "walkabout load v#{Walkabout::VERSION}"
+    puts "walkabout v#{Walkabout::VERSION}"
     window.size = {15.tiles, 15.tiles}
     initialize_objects
     Molly.background = Color.new(62, 41, 52)
