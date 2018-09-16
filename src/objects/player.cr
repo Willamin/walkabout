@@ -11,6 +11,13 @@ module Walkabout
     @shoot_timer = 0_f64
     @facing : Direction = Direction::Right
 
+    enum Axis
+      X
+      Y
+    end
+    X = Axis::X
+    Y = Axis::Y
+
     def update(dt)
       move(dt)
 
@@ -59,8 +66,8 @@ module Walkabout
         movement_y += (speed * dt).to_i
       end
 
-      movement_x = ensure_clear(movement_x, :x)
-      movement_y = ensure_clear(movement_y, :y)
+      movement_x = ensure_clear(movement_x, X)
+      movement_y = ensure_clear(movement_y, Y)
 
       if movement_x != 0 && movement_y != 0
         movement_x *= 0.707
@@ -71,28 +78,24 @@ module Walkabout
       @y += movement_y.to_i
     end
 
-    def outside_border?(axis, point)
-      case axis
-      when :x
-      end
+    def outside_border?(axis : Axis, point)
+      (point < 0 || point > (Molly.window.size[axis.to_i] - 1.tiles))
     end
 
-    def ensure_clear(amount, axis)
+    def ensure_clear(amount, axis : Axis)
       case axis
-      when :x
-        if @x + amount < 0 || @x + amount > (Molly.window.size[0] - 1.tiles)
-          0
-        else
-          amount
-        end
-      when :y
-        if @y + amount < 0 || @y + amount > (Molly.window.size[1] - 1.tiles)
-          0
-        else
-          amount
-        end
+      when X
+        point = amount + @x
+      when Y
+        point = amount + @y
       else
+        return 0
+      end
+
+      if outside_border?(axis, point)
         0
+      else
+        amount
       end
     end
 
