@@ -19,12 +19,34 @@ end
 module Walkabout
   VERSION   = {{ `shards version #{__DIR__}`.chomp.stringify }}
   TILE_SIZE = 48
+
+  def self.setup_console
+    Molly.setup_console do
+      listen_for "ping", ->(i : String) { puts "pong" }
+      listen_for "exit", ->(i : String) { exit }
+      listen_for "set", ->(i : String) do
+        set_input = i["set ".size..-1]
+        var_name = set_input.split("=")[0].strip
+        var_val = set_input.split("=")[1].strip
+
+        case var_name
+        when "base_player_speed"
+          var_val.to_i?.try { |x| Molly.base_player_speed = x }
+        when "base_shot_speed"
+          var_val.to_i?.try { |x| Molly.base_shot_speed = x }
+        when "base_shot_delay"
+          var_val.to_f?.try { |x| Molly.base_shot_delay = x }
+        end
+      end
+    end
+  end
 end
 
 module Molly
   # overridden Molly methods
   def load
     puts "walkabout v#{Walkabout::VERSION}"
+    Walkabout.setup_console
     window.size = {15.tiles, 15.tiles}
     initialize_objects
     Molly.background = Color.new(62, 41, 52)
