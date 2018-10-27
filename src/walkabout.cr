@@ -27,8 +27,8 @@ module Walkabout
       listen_for "set", ->(i : String) do
         begin
           set_input = i[("set ".size)..-1]
-          var_name = set_input.split("=")[0].try(&.strip) || "[invalid]"
-          var_val = set_input.split("=")[1].try(&.strip) || "[invalid]"
+          var_name = set_input.split("=")[0].strip
+          var_val = set_input.split("=")[1].strip
 
           case var_name
           when "base_player_speed", "bps"
