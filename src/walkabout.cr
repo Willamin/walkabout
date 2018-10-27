@@ -25,17 +25,28 @@ module Walkabout
       listen_for "ping", ->(i : String) { puts "pong" }
       listen_for "exit", ->(i : String) { exit }
       listen_for "set", ->(i : String) do
-        set_input = i["set ".size..-1]
-        var_name = set_input.split("=")[0].strip
-        var_val = set_input.split("=")[1].strip
+        begin
+          set_input = i[("set ".size)..-1]
+          var_name = set_input.split("=")[0].try(&.strip) || "[invalid]"
+          var_val = set_input.split("=")[1].try(&.strip) || "[invalid]"
 
-        case var_name
-        when "base_player_speed"
-          var_val.to_i?.try { |x| Molly.base_player_speed = x }
-        when "base_shot_speed"
-          var_val.to_i?.try { |x| Molly.base_shot_speed = x }
-        when "base_shot_delay"
-          var_val.to_f?.try { |x| Molly.base_shot_delay = x }
+          case var_name
+          when "base_player_speed", "bps"
+            var_val.to_i?.try { |x| Molly.base_player_speed = x }
+          when "base_shot_speed", "bss"
+            var_val.to_i?.try { |x| Molly.base_shot_speed = x }
+          when "base_shot_delay", "bsd"
+            var_val.to_f?.try { |x| Molly.base_shot_delay = x }
+          else
+            raise Molly2d::Console::Error.new
+          end
+        rescue e
+          raise Molly2d::Console::Error.new(<<-MSG
+            invalid set syntax.
+            for setting a variable named x to 5, correct syntax is:
+            set x = 5
+          MSG
+          )
         end
       end
     end
