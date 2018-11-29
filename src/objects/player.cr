@@ -45,58 +45,31 @@ module Walkabout
     end
 
     def move(dt)
-      movement_x = 0_f64
-      movement_y = 0_f64
+      proposal = MovementProposal.new(self)
 
       if Molly.keyboard_pressed?(Key::RIGHT)
-        movement_x += (speed * dt).to_i
+        proposal.x += (speed * dt).to_i
         @facing = Direction::Right
       end
 
       if Molly.keyboard_pressed?(Key::UP)
-        movement_y -= (speed * dt).to_i
+        proposal.y -= (speed * dt).to_i
       end
 
       if Molly.keyboard_pressed?(Key::LEFT)
-        movement_x -= (speed * dt).to_i
+        proposal.x -= (speed * dt).to_i
         @facing = Direction::Left
       end
 
       if Molly.keyboard_pressed?(Key::DOWN)
-        movement_y += (speed * dt).to_i
+        proposal.y += (speed * dt).to_i
       end
 
-      movement_x = ensure_clear(movement_x, X)
-      movement_y = ensure_clear(movement_y, Y)
+      proposal.ensure_clear
+      proposal.constrain_speed
 
-      if movement_x != 0 && movement_y != 0
-        movement_x *= 0.707
-        movement_y *= 0.707
-      end
-
-      @x += movement_x.to_i
-      @y += movement_y.to_i
-    end
-
-    def outside_border?(axis : Axis, point)
-      (point < 0 || point > (Molly.window.size[axis.to_i] - 1.tiles))
-    end
-
-    def ensure_clear(amount, axis : Axis)
-      case axis
-      when X
-        point = amount + @x
-      when Y
-        point = amount + @y
-      else
-        return 0
-      end
-
-      if outside_border?(axis, point)
-        0
-      else
-        amount
-      end
+      @x += proposal.x.to_i
+      @y += proposal.y.to_i
     end
 
     def draw
@@ -136,6 +109,32 @@ module Walkabout
     def inspect(io)
       io << "Player{(#{@x}, #{@y}) "
       io << " @ #{@speed}}\n"
+    end
+
+    class MovementProposal
+      property x = 0_f64
+      property y = 0_f64
+      property player : Player
+
+      def initialize(@player); end
+
+      def ensure_clear
+        proposed_x = x + player.x
+        proposed_y = y + player.y
+
+        @x = 0 if proposed_x < 0
+        @x = 0 if proposed_x > (Molly.window.size[X.to_i] - 1.tiles)
+
+        @y = 0 if proposed_y < 0
+        @y = 0 if proposed_y > (Molly.window.size[Y.to_i] - 1.tiles)
+      end
+
+      def constrain_speed
+        if @x != 0 && @y != 0
+          @x *= 0.707
+          @y *= 0.707
+        end
+      end
     end
   end
 end
