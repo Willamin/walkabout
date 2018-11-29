@@ -1,4 +1,5 @@
 require "../direction"
+require "../entity"
 
 module Walkabout
   class Player < Entity
