@@ -61,6 +61,7 @@ module Molly
     window.size = {15.tiles, 15.tiles}
     initialize_objects
     Molly.background = Color.new(62, 41, 52)
+    Molly::Music.play("res/bgm.wav")
   end
 
   def update(dt)
